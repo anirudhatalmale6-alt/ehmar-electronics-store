@@ -105,6 +105,15 @@ foreach ( array(
 	update_option( $key, $value );
 }
 
+// Store email: dashboard login, order notifications and the sender of customer emails.
+$store_email = getenv( 'EHMAR_EMAIL' ) ?: 'info@ehmar.com';
+update_option( 'admin_email', $store_email );
+update_option( 'woocommerce_email_from_address', $store_email );
+update_option( 'woocommerce_email_from_name', 'Ehmar' );
+foreach ( array( 'woocommerce_new_order_settings', 'woocommerce_cancelled_order_settings', 'woocommerce_failed_order_settings' ) as $email_option ) {
+	update_option( $email_option, array_merge( (array) get_option( $email_option, array() ), array( 'enabled' => 'yes', 'recipient' => $store_email ) ) );
+}
+
 /* ---------------------------------------------------------------- Theme & branding */
 
 switch_theme( 'ehmar' );
@@ -311,7 +320,7 @@ HTML );
 ehmar_page( 'contact', 'Contact Us', <<<HTML
 <!-- wp:paragraph --><p>Questions about a product, an order or a delivery? Reach us any of these ways and we'll get back to you quickly.</p><!-- /wp:paragraph -->
 {$contact_box}
-<!-- wp:list --><ul class="wp-block-list"><li><strong>WhatsApp / Phone:</strong> [to be added]</li><li><strong>Email:</strong> [to be added]</li><li><strong>Address:</strong> [to be added]</li><li><strong>Opening hours:</strong> [to be added]</li></ul><!-- /wp:list -->
+<!-- wp:list --><ul class="wp-block-list"><li><strong>WhatsApp / Phone:</strong> [to be added]</li><li><strong>Email:</strong> <a href="mailto:info@ehmar.com">info@ehmar.com</a></li><li><strong>Address:</strong> [to be added]</li><li><strong>Opening hours:</strong> [to be added]</li></ul><!-- /wp:list -->
 </div><!-- /wp:group -->
 HTML );
 
