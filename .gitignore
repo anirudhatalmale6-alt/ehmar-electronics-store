@@ -11,3 +11,4 @@
 /logs/
 /wp-cli.phar
 /router.php
+/deploy/
