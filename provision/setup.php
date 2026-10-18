@@ -79,6 +79,32 @@ function ehmar_page( $slug, $title, $content ) {
 	return wp_insert_post( $data );
 }
 
+/* ---------------------------------------------------------------- Site & WooCommerce settings */
+
+// Market defaults: Nigeria / Naira. Switch EHMAR_CURRENCY + EHMAR_COUNTRY for a US-dollar store.
+$currency = getenv( 'EHMAR_CURRENCY' ) ?: 'NGN';
+$country  = getenv( 'EHMAR_COUNTRY' ) ?: 'NG:LA';
+foreach ( array(
+	'timezone_string'                    => 'Africa/Lagos',
+	'permalink_structure'                => '/%postname%/',
+	'woocommerce_default_country'        => $country,
+	'woocommerce_currency'               => $currency,
+	'woocommerce_currency_pos'           => 'left',
+	'woocommerce_price_thousand_sep'     => ',',
+	'woocommerce_price_decimal_sep'      => '.',
+	'woocommerce_price_num_decimals'     => 'NGN' === $currency ? 0 : 2,
+	'woocommerce_weight_unit'            => 'kg',
+	'woocommerce_dimension_unit'         => 'cm',
+	'woocommerce_calc_taxes'             => 'no',
+	'woocommerce_enable_guest_checkout'  => 'yes',
+	'woocommerce_coming_soon'            => 'no',
+	'woocommerce_allow_tracking'         => 'no',
+	'woocommerce_task_list_hidden'       => 'yes',
+	'woocommerce_onboarding_profile'     => array( 'skipped' => true ),
+) as $key => $value ) {
+	update_option( $key, $value );
+}
+
 /* ---------------------------------------------------------------- Theme & branding */
 
 switch_theme( 'ehmar' );
