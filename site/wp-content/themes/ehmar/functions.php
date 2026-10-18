@@ -20,3 +20,11 @@ add_filter( 'woocommerce_product_categories_widget_args', function ( $args ) {
 	$args['exclude'] = get_option( 'default_product_cat' );
 	return $args;
 } );
+
+// WooCommerce 11.2 loads the mini-cart script module on cart/checkout pages but skips hydrating its
+// state there, so the cart store fetches "undefinedwc/store/v1/cart" (404). Provide the REST root.
+add_action( 'wp_enqueue_scripts', function () {
+	if ( function_exists( 'is_cart' ) && ( is_cart() || is_checkout() ) && function_exists( 'wp_interactivity_state' ) ) {
+		wp_interactivity_state( 'woocommerce', array( 'restUrl' => get_rest_url() ) );
+	}
+} );

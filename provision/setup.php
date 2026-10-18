@@ -357,7 +357,11 @@ ehmar_log( 'Pages ready.' );
 
 update_option( 'show_on_front', 'posts' ); // front-page.html template takes over the home page.
 update_option( 'woocommerce_default_catalog_orderby', 'date' ); // Newest first, matching "New arrivals".
-update_option( 'woocommerce_checkout_phone_field', 'required' ); // Couriers need a phone number in Nigeria.
+// Couriers need a phone number in Nigeria. All three field options must be set together: if company or
+// address_2 is missing, WooCommerce's first checkout visit runs a migration that resets phone to 'optional'.
+update_option( 'woocommerce_checkout_phone_field', 'required' );
+update_option( 'woocommerce_checkout_company_field', 'hidden' );
+update_option( 'woocommerce_checkout_address_2_field', 'optional' );
 
 // Bank transfer: account details are added once the client supplies them.
 $bacs = get_option( 'woocommerce_bacs_settings', array() );
