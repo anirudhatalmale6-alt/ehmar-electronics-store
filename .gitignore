@@ -1,0 +1,13 @@
+# WordPress core, plugins and the local SQLite database are not part of this repo:
+# only the custom theme, the provisioning script and the store assets are.
+/site/*
+!/site/wp-content/
+/site/wp-content/*
+!/site/wp-content/themes/
+/site/wp-content/themes/*
+!/site/wp-content/themes/ehmar/
+/demo-img/
+/shots/
+/logs/
+/wp-cli.phar
+/router.php

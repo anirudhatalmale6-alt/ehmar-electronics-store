@@ -1,0 +1,231 @@
+/* Ehmar Electronics — storefront styles layered on top of theme.json. */
+
+:root {
+	--ehmar-radius: 14px;
+	--ehmar-shadow: 0 1px 2px rgba(11, 21, 39, .06), 0 8px 24px rgba(11, 21, 39, .06);
+}
+
+body { -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; }
+
+/* ---------- Header ---------- */
+.ehmar-topbar p { margin: 0; opacity: .92; }
+.ehmar-topbar a { color: inherit; }
+.ehmar-header { position: sticky; top: 0; z-index: 50; }
+.admin-bar .ehmar-header { top: 32px; }
+.ehmar-header-row { gap: 1.5rem; }
+.ehmar-header .wp-block-site-logo img { height: auto; }
+.ehmar-search { flex: 1 1 auto; max-width: 560px; margin: 0; }
+.ehmar-search .wp-block-search__inside-wrapper {
+	border: 1.5px solid var(--wp--preset--color--border);
+	border-radius: 999px;
+	padding: 3px 3px 3px 1rem;
+	background: var(--wp--preset--color--surface);
+}
+.ehmar-search .wp-block-search__inside-wrapper:focus-within { border-color: var(--wp--preset--color--primary); background: #fff; }
+.ehmar-search .wp-block-search__input { border: 0; background: transparent; font: inherit; font-size: .95rem; outline: none; min-width: 0; }
+.ehmar-search .wp-block-search__button {
+	border-radius: 999px; margin: 0; padding: .55rem .9rem;
+	background: var(--wp--preset--color--primary); color: #fff;
+}
+.ehmar-search .wp-block-search__button svg { fill: currentColor; }
+.ehmar-header-actions { gap: .75rem; }
+.ehmar-header-actions .wc-block-customer-account a,
+.ehmar-header-actions .wc-block-mini-cart__button { color: var(--wp--preset--color--contrast); }
+.ehmar-header-actions svg { width: 26px; height: 26px; }
+.wc-block-mini-cart__badge { background: var(--wp--preset--color--accent) !important; color: #fff !important; border: 0 !important; }
+
+.ehmar-nav a { color: var(--wp--preset--color--contrast); padding: .55rem 0; display: inline-block; }
+.ehmar-nav a:hover { color: var(--wp--preset--color--primary); text-decoration: none; }
+
+/* ---------- Hero ---------- */
+.ehmar-hero { position: relative; overflow: hidden;
+	background: radial-gradient(1200px 500px at 85% -10%, rgba(22, 89, 230, .55), transparent 60%),
+	            radial-gradient(700px 400px at 10% 120%, rgba(255, 122, 26, .25), transparent 60%),
+	            var(--wp--preset--color--navy) !important; }
+.ehmar-hero h1 { color: #fff; margin: .4rem 0 0; }
+.ehmar-hl { color: #8DB4FF; }
+.ehmar-eyebrow {
+	display: inline-block; margin: 0; padding: .3rem .8rem; border-radius: 999px;
+	font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+	background: rgba(255, 255, 255, .1); color: #CFE0FF;
+}
+.ehmar-eyebrow-dark { background: rgba(22, 89, 230, .1); color: var(--wp--preset--color--primary); }
+.ehmar-hero-lead { color: #C9D3E6; max-width: 34ch; font-weight: 500; }
+.ehmar-btn-ghost .wp-block-button__link { color: #fff; border: 1.5px solid rgba(255, 255, 255, .45); background: transparent; }
+.ehmar-btn-ghost .wp-block-button__link:hover { background: rgba(255, 255, 255, .1); }
+.ehmar-btn-accent .wp-block-button__link:hover { background: #E8650A !important; }
+
+.ehmar-hero-art { position: relative; aspect-ratio: 1 / 0.86; max-width: 520px; margin-left: auto; }
+.ehmar-hero-art img {
+	position: absolute; object-fit: cover; border-radius: 22px;
+	box-shadow: 0 24px 60px rgba(0, 0, 0, .35); border: 4px solid rgba(255, 255, 255, .08);
+}
+.ehmar-hero-a { width: 58%; height: 72%; left: 0; top: 0; }
+.ehmar-hero-b { width: 46%; height: 50%; right: 0; top: 8%; }
+.ehmar-hero-c { width: 52%; height: 44%; right: 6%; bottom: 0; }
+
+/* ---------- Trust strip ---------- */
+.ehmar-trust-list {
+	list-style: none; margin: 0 auto; padding: 0; max-width: var(--wp--style--global--wide-size);
+	display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem;
+}
+.ehmar-trust-list li { display: flex; align-items: center; gap: .75rem; min-width: 0; }
+.ehmar-trust-list svg {
+	flex: none; width: 40px; height: 40px; padding: 9px; border-radius: 12px;
+	background: #fff; stroke: var(--wp--preset--color--primary); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+.ehmar-trust-list span { font-size: .85rem; color: var(--wp--preset--color--muted); line-height: 1.35; }
+.ehmar-trust-list b { display: block; color: var(--wp--preset--color--contrast); font-size: .92rem; }
+
+/* ---------- Category tiles ---------- */
+.ehmar-cats {
+	display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 1rem;
+	max-width: var(--wp--style--global--wide-size); margin-left: auto !important; margin-right: auto !important;
+}
+.ehmar-cat {
+	display: flex; flex-direction: column; align-items: flex-start; gap: .25rem; min-width: 0;
+	padding: 1.1rem; border-radius: var(--ehmar-radius); background: var(--wp--preset--color--surface);
+	color: var(--wp--preset--color--contrast); border: 1px solid transparent;
+	transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.ehmar-cat:hover { text-decoration: none; transform: translateY(-2px); border-color: var(--wp--preset--color--border); background: #fff; box-shadow: var(--ehmar-shadow); }
+.ehmar-cat-icon {
+	width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; margin-bottom: .5rem;
+	background: linear-gradient(135deg, var(--wp--preset--color--primary), #3B82F6);
+}
+.ehmar-cat:nth-child(4) .ehmar-cat-icon,
+.ehmar-cat:nth-child(5) .ehmar-cat-icon { background: linear-gradient(135deg, var(--wp--preset--color--accent), #FFA24D); }
+.ehmar-cat-icon svg { width: 26px; height: 26px; stroke: #fff; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ehmar-cat-name { font-weight: 800; font-size: .98rem; line-height: 1.25; }
+.ehmar-cat-sub { font-size: .8rem; color: var(--wp--preset--color--muted); line-height: 1.35; }
+
+/* ---------- Product cards ---------- */
+.ehmar-products .wc-block-product-template,
+.ehmar-products .wc-block-product-template__responsive { gap: 1.25rem !important; }
+.ehmar-products .wc-block-product {
+	background: #fff; border: 1px solid var(--wp--preset--color--border); border-radius: var(--ehmar-radius);
+	padding: .9rem; display: flex; flex-direction: column; gap: .35rem; min-width: 0;
+	transition: box-shadow .15s ease, border-color .15s ease;
+}
+.ehmar-products .wc-block-product:hover { box-shadow: var(--ehmar-shadow); border-color: #CBD3E0; }
+.ehmar-products .wc-block-components-product-image { background: var(--wp--preset--color--surface); border-radius: 10px; overflow: hidden; margin-bottom: .5rem !important; }
+.ehmar-products .wc-block-components-product-image img { object-fit: cover !important; aspect-ratio: 1; width: 100%; }
+.ehmar-products .wp-block-post-title { margin: 0; line-height: 1.35; font-weight: 700; }
+.ehmar-products .wp-block-post-title a { color: var(--wp--preset--color--contrast); }
+.ehmar-products .wc-block-components-product-price { margin: 0 0 .4rem; }
+.ehmar-products .wc-block-components-product-price del { color: var(--wp--preset--color--muted); font-weight: 500; font-size: .85em; margin-right: .35rem; }
+.ehmar-products .wc-block-components-product-price ins { text-decoration: none; }
+.ehmar-products .wp-block-woocommerce-product-button { margin-top: auto; }
+.ehmar-products .wp-block-button__link { border-radius: 10px; width: 100%; }
+.wc-block-components-product-sale-badge {
+	background: var(--wp--preset--color--accent) !important; color: #fff !important; border: 0 !important;
+	border-radius: 999px !important; font-weight: 800 !important; font-size: .72rem !important; padding: .2rem .6rem !important;
+}
+
+/* ---------- Solar banner ---------- */
+.ehmar-solar-card {
+	background: linear-gradient(120deg, #FFF4EA, #EEF4FF);
+	border-radius: 24px; padding: var(--wp--preset--spacing--50) !important; overflow: hidden;
+}
+.ehmar-solar-card h2 { margin: .6rem 0; }
+.ehmar-solar-img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 18px; box-shadow: var(--ehmar-shadow); display: block; }
+
+/* ---------- Listing pages ---------- */
+.ehmar-listing .wp-block-query-title { margin-top: .5rem; }
+.ehmar-listing-cols { align-items: flex-start !important; }
+.ehmar-sidebar { position: sticky; top: 110px; }
+.ehmar-filters h3 { margin: 1.25rem 0 .5rem; text-transform: uppercase; letter-spacing: .06em; font-size: .78rem !important; color: var(--wp--preset--color--muted); }
+.ehmar-filters > h2 { margin-top: 0; }
+.ehmar-results-bar { margin-bottom: 1rem; color: var(--wp--preset--color--muted); font-size: .9rem; }
+.ehmar-results-bar select { border: 1px solid var(--wp--preset--color--border); border-radius: 10px; padding: .45rem .7rem; font: inherit; background: #fff; }
+
+/* ---------- Single product ---------- */
+.single-product .wp-block-woocommerce-product-image-gallery img,
+.single-product .woocommerce-product-gallery img { background: var(--wp--preset--color--surface); border-radius: var(--ehmar-radius); }
+.single-product .wp-block-woocommerce-product-price { font-size: 1.6rem; font-weight: 800; }
+
+/* ---------- Generic pages ---------- */
+.ehmar-page-card { background: var(--wp--preset--color--surface); border-radius: var(--ehmar-radius); padding: var(--wp--preset--spacing--40); }
+.ehmar-faq details { border-bottom: 1px solid var(--wp--preset--color--border); padding: 1rem 0; }
+.ehmar-faq summary { font-weight: 700; cursor: pointer; }
+.ehmar-faq details p { margin: .6rem 0 0; color: var(--wp--preset--color--muted); }
+
+/* ---------- Footer ---------- */
+.ehmar-footer a { color: #C9D3E6; }
+.ehmar-footer a:hover { color: #fff; }
+.ehmar-footer-brand { font-size: 2rem; font-weight: 800; letter-spacing: -.03em; margin: 0; color: #fff; }
+.ehmar-footer-brand span { color: var(--wp--preset--color--accent); }
+.ehmar-footer-muted { color: #9FAAC0; }
+.ehmar-footer-links { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; }
+.ehmar-footer-plain li { color: #C9D3E6; }
+.ehmar-footer-sep { border-color: rgba(255, 255, 255, .12) !important; opacity: 1; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+	.ehmar-cats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+	.ehmar-trust-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.ehmar-hero-art { max-width: 420px; margin: 1rem auto 0; }
+	.ehmar-listing-cols { flex-direction: column; }
+	.ehmar-sidebar { position: static; flex-basis: auto !important; width: 100%; }
+}
+@media (max-width: 781px) {
+	.ehmar-header-row { flex-wrap: wrap !important; }
+	.ehmar-search { order: 3; flex-basis: 100%; max-width: none; }
+	.ehmar-header .wp-block-site-logo img { width: 120px !important; }
+	.ehmar-topbar-links { display: none; }
+	.ehmar-hero-lead { max-width: none; }
+}
+@media (max-width: 600px) {
+	.ehmar-cats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+	.ehmar-trust-list { grid-template-columns: 1fr 1fr; gap: .75rem; }
+	.ehmar-trust-list svg { width: 34px; height: 34px; padding: 7px; }
+	.ehmar-products .wc-block-product { padding: .6rem; }
+	.ehmar-solar-card { padding: 1.25rem !important; }
+}
+
+/* ---------- Refinements ---------- */
+.ehmar-products .wp-block-post-title { min-height: 2.7em; }
+.ehmar-solar-fig { margin: 0; }
+.ehmar-solar-fig figcaption { font-size: .7rem; color: var(--wp--preset--color--muted); margin-top: .4rem; text-align: right; }
+@media (max-width: 781px) {
+	/* Category menu becomes a swipeable row instead of a hamburger. */
+	.ehmar-nav .wp-block-navigation__container { flex-wrap: nowrap !important; overflow-x: auto; scrollbar-width: none; gap: 1.1rem !important; padding-right: 1rem; }
+	.ehmar-nav .wp-block-navigation__container::-webkit-scrollbar { display: none; }
+	.ehmar-nav .wp-block-navigation-item { flex: none; }
+	.ehmar-catbar { overflow: hidden; }
+	.ehmar-hero-art { max-width: 340px; }
+	.ehmar-hero .wp-block-buttons { gap: .6rem; }
+}
+@media (max-width: 600px) {
+	.ehmar-trust-list span { font-size: .8rem; }
+	.ehmar-trust-list span:not(:has(b)) { display: none; }
+	.ehmar-hero h1 { font-size: 2.1rem !important; }
+	.ehmar-products .wp-block-post-title { font-size: .9rem !important; }
+	.ehmar-products .wc-block-components-product-price { font-size: 1rem !important; }
+}
+
+/* Filter sidebar: neutralise browser fieldset chrome so lists stay inside the column. */
+.ehmar-sidebar { min-width: 0; max-width: 260px; }
+.ehmar-filters fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.ehmar-filters .wc-block-product-filter-checkbox-list__items { margin: 0; padding: 0; }
+.ehmar-filters .wc-block-product-filter-checkbox-list__label { font-size: .92rem; }
+.ehmar-filters .wp-block-woocommerce-product-filter-price-slider,
+.ehmar-filters .wc-block-product-filter-price-slider__content,
+.ehmar-filters .wc-block-product-filter-price-slider__range { width: 100% !important; min-width: 0 !important; max-width: 100%; }
+.ehmar-filters .wc-block-product-filter-price-slider__content { gap: .5rem; }
+.ehmar-filters .wc-block-product-filter-price-slider__left input,
+.ehmar-filters .wc-block-product-filter-price-slider__right input {
+	width: 100%; min-width: 0; box-sizing: border-box; font: inherit; font-size: .85rem;
+	border: 1px solid var(--wp--preset--color--border); border-radius: 8px; padding: .35rem .5rem;
+}
+.ehmar-filters .wc-block-product-filter-price-slider__left,
+.ehmar-filters .wc-block-product-filter-price-slider__right { min-width: 0; }
+
+/* Single product: brand-coloured sale badge. */
+.single-product span.onsale {
+	background: var(--wp--preset--color--accent); color: #fff; border-radius: 999px; min-height: 0; min-width: 0;
+	padding: .3rem .8rem; line-height: 1.4; font-size: .8rem; font-weight: 800; top: .8rem; left: .8rem;
+}
