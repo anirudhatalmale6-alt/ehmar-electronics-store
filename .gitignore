@@ -13,3 +13,7 @@
 /router.php
 /deploy/
 /square/
+/afriex/
+!/site/wp-content/plugins/
+/site/wp-content/plugins/*
+!/site/wp-content/plugins/ehmar-afriex/
