@@ -229,3 +229,31 @@ img { max-width: 100%; }
 	background: var(--wp--preset--color--accent); color: #fff; border-radius: 999px; min-height: 0; min-width: 0;
 	padding: .3rem .8rem; line-height: 1.4; font-size: .8rem; font-weight: 800; top: .8rem; left: .8rem;
 }
+
+/* ---------- Cars & Engines request form ---------- */
+.ehmar-request { background: var(--wp--preset--color--surface); border-radius: var(--ehmar-radius); padding: var(--wp--preset--spacing--40); margin-top: 1.5rem; }
+.ehmar-request-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.ehmar-request label { display: flex; flex-direction: column; gap: .35rem; font-weight: 700; font-size: .9rem; min-width: 0; }
+.ehmar-request-full { margin-top: 1rem; }
+.ehmar-request input, .ehmar-request select, .ehmar-request textarea {
+	font: inherit; font-weight: 500; padding: .65rem .8rem; border: 1px solid var(--wp--preset--color--border); border-radius: 10px; background: #fff; width: 100%; box-sizing: border-box;
+}
+.ehmar-request input:focus, .ehmar-request select:focus, .ehmar-request textarea:focus { outline: 2px solid var(--wp--preset--color--primary); outline-offset: 1px; }
+.ehmar-hp { position: absolute !important; left: -9999px !important; height: 0; overflow: hidden; }
+.ehmar-notice { padding: .9rem 1.1rem; border-radius: 10px; margin: 1rem 0; font-weight: 700; }
+.ehmar-notice-ok { background: #E8F7EF; color: #0E6B45; }
+.ehmar-notice-err { background: #FDECEC; color: #A32020; }
+@media (max-width: 781px) { .ehmar-request-grid { grid-template-columns: 1fr; } }
+
+/* Eight category tiles (relaunch): 4 per row on desktop. */
+.ehmar-cats-8 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.ehmar-cat:nth-child(4) .ehmar-cat-icon, .ehmar-cat:nth-child(8) .ehmar-cat-icon { background: linear-gradient(135deg, var(--wp--preset--color--accent), #FFA24D); }
+.ehmar-cat:nth-child(5) .ehmar-cat-icon { background: linear-gradient(135deg, var(--wp--preset--color--primary), #3B82F6); }
+.ehmar-trust-list a { color: var(--wp--preset--color--primary); }
+.ehmar-hero-c { object-fit: contain !important; background: #fff; }
+@media (max-width: 600px) { .ehmar-cats-8 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Square product photos carry text and badges: show them whole, never cropped. */
+.ehmar-products .wc-block-components-product-image { background: #fff; border: 1px solid var(--wp--preset--color--border); }
+.ehmar-products .wc-block-components-product-image img { object-fit: contain !important; }
+/* Square names are long: keep cards even at three lines (full name on the product page). */
+.ehmar-products .wp-block-post-title { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 4.05em; line-height: 1.35; }
