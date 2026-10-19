@@ -101,3 +101,18 @@ $ehmar_handle_request = function () {
 };
 add_action( 'admin_post_nopriv_ehmar_car_request', $ehmar_handle_request );
 add_action( 'admin_post_ehmar_car_request', $ehmar_handle_request );
+
+// Products imported from Square have no short description; WordPress would otherwise auto-generate one
+// from the full spec sheet and show a wall of text under the price. Show nothing instead (specs stay in
+// the Description tab).
+add_filter( 'get_the_excerpt', function ( $excerpt, $post ) {
+	return ( $post && 'product' === $post->post_type && '' === trim( (string) $post->post_excerpt ) ) ? '' : $excerpt;
+}, 20, 2 );
+
+// Interim shipping has a $0 placeholder cost that is confirmed with the customer after ordering;
+// the block cart/checkout would label it "Free", which promises something we have not agreed.
+add_action( 'wp_enqueue_scripts', function () {
+	if ( function_exists( 'is_cart' ) && ( is_cart() || is_checkout() ) ) {
+		wp_add_inline_script( 'wp-i18n', 'wp.i18n.setLocaleData( { "Free": [ "To be confirmed" ] }, "woocommerce" );' );
+	}
+}, 5 );

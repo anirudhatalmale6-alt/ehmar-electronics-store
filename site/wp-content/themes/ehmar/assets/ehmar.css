@@ -257,3 +257,5 @@ img { max-width: 100%; }
 .ehmar-products .wc-block-components-product-image img { object-fit: contain !important; }
 /* Square names are long: keep cards even at three lines (full name on the product page). */
 .ehmar-products .wp-block-post-title { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 4.05em; line-height: 1.35; }
+/* Long Square product names: keep the product-page headline readable. */
+.single-product h1.wp-block-post-title, .single-product .product_title { font-size: clamp(1.35rem, 2.1vw, 1.85rem) !important; line-height: 1.25; }

@@ -53,6 +53,16 @@ function sq_image( $url, $title ) {
 		sq_log( '  image failed: ' . $tmp->get_error_message() );
 		return 0;
 	}
+	// Square's metadata can under-report size (a "2560px" photo was 5100px). Decoding that for thumbnails
+	// exceeds shared-hosting memory and the request dies with a 503, so take Square's 1280px rendition instead.
+	$dims = @getimagesize( $tmp );
+	if ( $dims && max( $dims[0], $dims[1] ) > 3000 && false !== strpos( (string) wp_parse_url( $url, PHP_URL_HOST ), 'editmysite.com' ) ) {
+		$smaller = download_url( add_query_arg( 'width', 1280, $url ), 60 );
+		if ( ! is_wp_error( $smaller ) ) {
+			@unlink( $tmp );
+			$tmp = $smaller;
+		}
+	}
 	$name = sanitize_file_name( basename( wp_parse_url( $url, PHP_URL_PATH ) ) );
 	$id   = media_handle_sideload( array( 'name' => $name, 'tmp_name' => $tmp ), 0, $title );
 	if ( is_wp_error( $id ) ) {
