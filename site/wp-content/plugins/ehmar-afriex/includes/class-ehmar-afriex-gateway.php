@@ -73,7 +73,11 @@ class Ehmar_Afriex_Gateway extends WC_Payment_Gateway {
 	}
 
 	public function is_available() {
-		return parent::is_available() && '' !== trim( (string) $this->get_option( $this->sandbox() ? 'test_api_key' : 'live_api_key' ) );
+		if ( ! parent::is_available() || '' === trim( (string) $this->get_option( $this->sandbox() ? 'test_api_key' : 'live_api_key' ) ) ) {
+			return false;
+		}
+		// Sandbox payments settle without real money: never offer them to real customers on the live store.
+		return ! $this->sandbox() || current_user_can( 'manage_woocommerce' );
 	}
 
 	/* ------------------------------------------------------------ Checkout */
