@@ -37,7 +37,21 @@ class Ehmar_Afriex_API {
 		if ( null !== $body ) {
 			$args['body'] = wp_json_encode( $body );
 		}
-		$res = wp_remote_request( $url, $args );
+		// Reads are retried on 503/429/network errors with backoff (honouring Retry-After).
+		// A create (POST) is never retried blindly: a timeout could hide a session that was made.
+		$attempts = 'GET' === $method ? 3 : 1;
+		for ( $try = 1; ; $try++ ) {
+			$res    = wp_remote_request( $url, $args );
+			$code   = is_wp_error( $res ) ? 0 : (int) wp_remote_retrieve_response_code( $res );
+			$retry  = is_wp_error( $res ) || 503 === $code || 429 === $code || 502 === $code || 504 === $code;
+			if ( ! $retry || $try >= $attempts ) {
+				break;
+			}
+			$after = is_wp_error( $res ) ? 0 : (int) wp_remote_retrieve_header( $res, 'retry-after' );
+			$wait  = min( 5, max( 1, $after ?: $try ) );
+			$this->log( sprintf( '%s %s -> %s, retry %d in %ds', $method, $path, $code ?: 'network error', $try, $wait ) );
+			sleep( $wait );
+		}
 		if ( is_wp_error( $res ) ) {
 			$this->log( "$method $path failed: " . $res->get_error_message() );
 			return array( 'ok' => false, 'status' => 0, 'body' => null, 'request_id' => '', 'error' => $res->get_error_message() );
