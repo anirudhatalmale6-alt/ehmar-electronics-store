@@ -169,6 +169,10 @@ class Ehmar_Afriex_Gateway extends WC_Payment_Gateway {
 			return array( 'result' => 'failure' );
 		}
 
+		// Keep every attempt: a session the customer abandoned can still be paid later and must find this order.
+		$refs               = (array) $order->get_meta( '_afriex_refs' );
+		$refs[ $reference ] = array( 'currency' => $currency, 'amount' => $amount );
+		$order->update_meta_data( '_afriex_refs', $refs );
 		$order->update_meta_data( '_afriex_reference', $reference );
 		$order->update_meta_data( '_afriex_currency', $currency );
 		$order->update_meta_data( '_afriex_amount_minor', $amount );
@@ -194,7 +198,11 @@ class Ehmar_Afriex_Gateway extends WC_Payment_Gateway {
 			return null;
 		}
 		$order = wc_get_order( (int) $m[1] );
-		return ( $order && $order->get_meta( '_afriex_reference' ) === $reference ) ? $order : null;
+		if ( ! $order ) {
+			return null;
+		}
+		$refs = (array) $order->get_meta( '_afriex_refs' );
+		return ( $order->get_meta( '_afriex_reference' ) === $reference || isset( $refs[ $reference ] ) ) ? $order : null;
 	}
 
 	/**
@@ -213,6 +221,14 @@ class Ehmar_Afriex_Gateway extends WC_Payment_Gateway {
 
 		if ( in_array( $status, self::PAID, true ) ) {
 			if ( $order->is_paid() ) {
+				// A second session paid for the same order (e.g. the customer paid twice): flag it once for a refund.
+				$first = (string) $order->get_transaction_id();
+				if ( $txn_id && $first && $txn_id !== $first && ! $order->get_meta( '_afriex_extra_' . $txn_id ) ) {
+					$order->update_meta_data( '_afriex_extra_' . $txn_id, 1 );
+					$order->save();
+					$order->add_order_note( "Afriex reports a SECOND successful payment for this order (transaction $txn_id; the order was already paid by $first). Refund it from the Afriex dashboard." );
+					return 'second-payment';
+				}
 				return 'already-paid';
 			}
 			if ( ! $this->amount_matches( $order, $txn ) ) {
@@ -226,10 +242,28 @@ class Ehmar_Afriex_Gateway extends WC_Payment_Gateway {
 		}
 
 		if ( in_array( $status, self::FAILED, true ) ) {
+			$reference = (string) ( $txn['merchantReference'] ?? $txn['meta']['reference'] ?? '' );
+			if ( $reference && $reference !== $order->get_meta( '_afriex_reference' ) ) {
+				// An older attempt failed while the customer is already on a newer one: do not fail the order.
+				$order->add_order_note( "Afriex: an earlier payment attempt ($reference) ended $status ($source)." );
+				return 'old-attempt-failed';
+			}
 			if ( ! $order->is_paid() ) {
-				$reason = $txn['meta']['failureReason']['message'] ?? $txn['meta']['failureReason']['code'] ?? '';
+				// Branch on failureReason.code / retryable, never on the message text.
+				$fr        = (array) ( $txn['meta']['failureReason'] ?? array() );
+				$code      = (string) ( $fr['code'] ?? '' );
+				$retryable = ! empty( $fr['retryable'] );
 				$order->update_meta_data( '_afriex_last_update', $updated );
-				$order->update_status( 'failed', trim( "Afriex payment $status ($source). $reason" ) );
+				$order->update_meta_data( '_afriex_failure_code', $code );
+				$order->update_meta_data( '_afriex_failure_retryable', $retryable ? 'yes' : 'no' );
+				$order->update_status( 'failed', trim( sprintf(
+					'Afriex payment %s (%s). Code %s, %s. %s',
+					$status,
+					$source,
+					$code ?: 'none',
+					$retryable ? 'retryable: the customer can try again' : 'not retryable: the customer should use another payment method',
+					(string) ( $fr['message'] ?? '' )
+				) ) );
 			}
 			return 'failed';
 		}
@@ -246,8 +280,10 @@ class Ehmar_Afriex_Gateway extends WC_Payment_Gateway {
 
 	/** The settled amount must be the one we asked for, in the same currency (1% tolerance for rounding). */
 	private function amount_matches( WC_Order $order, array $txn ) {
-		$want_currency = (string) $order->get_meta( '_afriex_currency' );
-		$want          = (int) $order->get_meta( '_afriex_amount_minor' ) / 100;
+		$reference     = (string) ( $txn['merchantReference'] ?? $txn['meta']['reference'] ?? '' );
+		$refs          = (array) $order->get_meta( '_afriex_refs' );
+		$want_currency = (string) ( $refs[ $reference ]['currency'] ?? $order->get_meta( '_afriex_currency' ) );
+		$want          = (int) ( $refs[ $reference ]['amount'] ?? $order->get_meta( '_afriex_amount_minor' ) ) / 100;
 		foreach ( array( array( 'destinationAmount', 'destinationCurrency' ), array( 'sourceAmount', 'sourceCurrency' ) ) as $pair ) {
 			$cur = strtoupper( (string) ( $txn[ $pair[1] ] ?? '' ) );
 			$amt = $txn[ $pair[0] ] ?? null;
@@ -279,8 +315,12 @@ class Ehmar_Afriex_Gateway extends WC_Payment_Gateway {
 			status_header( 200 );
 			exit( 'duplicate' );
 		}
-		if ( $id ) {
-			set_transient( 'ehmar_afx_evt_' . md5( $id ), 1, 2 * DAY_IN_SECONDS );
+		// UAT drill, sandbox only: answer one delivery with 500 to watch Afriex redeliver it.
+		if ( $this->sandbox() && get_option( 'ehmar_afriex_fail_next_webhook' ) ) {
+			delete_option( 'ehmar_afriex_fail_next_webhook' );
+			wc_get_logger()->info( "Afriex webhook $type $id: answered 500 (retry drill)", array( 'source' => 'ehmar-afriex' ) );
+			status_header( 500 );
+			exit( 'retry drill' );
 		}
 
 		$outcome = 'ignored';
@@ -289,6 +329,10 @@ class Ehmar_Afriex_Gateway extends WC_Payment_Gateway {
 			$reference = $txn['merchantReference'] ?? $txn['meta']['reference'] ?? '';
 			$order     = self::order_for_reference( $reference );
 			$outcome   = $order ? $this->apply_transaction( $order, $txn, 'webhook' ) : 'no-order';
+		}
+		// Remember the event only once it has been applied, so a delivery that crashed half-way is retried.
+		if ( $id ) {
+			set_transient( 'ehmar_afx_evt_' . md5( $id ), 1, 2 * DAY_IN_SECONDS );
 		}
 		wc_get_logger()->info( "Afriex webhook $type $id: $outcome", array( 'source' => 'ehmar-afriex' ) );
 		status_header( 200 );
@@ -326,7 +370,12 @@ class Ehmar_Afriex_Gateway extends WC_Payment_Gateway {
 		}
 
 		if ( $order->has_status( 'failed' ) ) {
-			wc_add_notice( 'Your Afriex payment did not go through. Please try again or choose another payment method.', 'error' );
+			wc_add_notice(
+				'no' === $order->get_meta( '_afriex_failure_retryable' )
+					? 'Your Afriex payment was declined. Please choose another payment method or contact us.'
+					: 'Your Afriex payment did not go through. Please try again or choose another payment method.',
+				'error'
+			);
 			wp_safe_redirect( $order->get_checkout_payment_url() );
 			exit;
 		}
