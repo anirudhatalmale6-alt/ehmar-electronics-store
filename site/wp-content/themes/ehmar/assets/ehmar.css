@@ -259,3 +259,50 @@ img { max-width: 100%; }
 .ehmar-products .wp-block-post-title { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 4.05em; line-height: 1.35; }
 /* Long Square product names: keep the product-page headline readable. */
 .single-product h1.wp-block-post-title, .single-product .product_title { font-size: clamp(1.35rem, 2.1vw, 1.85rem) !important; line-height: 1.25; }
+
+/* ---------- Brand refresh: navy & gold, matching the ER logo ---------- */
+.ehmar-topbar { background: #071428 !important; }
+.ehmar-header { box-shadow: 0 1px 0 rgba(255, 255, 255, .06); }
+.ehmar-header .wp-block-site-logo img { max-height: 46px; width: auto !important; }
+.ehmar-search .wp-block-search__inside-wrapper { background: #fff; border-color: transparent; }
+.ehmar-search .wp-block-search__inside-wrapper:focus-within { border-color: var(--wp--preset--color--accent); }
+.ehmar-search .wp-block-search__button { background: var(--wp--preset--color--accent); color: var(--wp--preset--color--navy); }
+.ehmar-header-actions .wc-block-customer-account a,
+.ehmar-header-actions .wc-block-mini-cart__button { color: #fff; }
+.ehmar-header-actions .wc-block-mini-cart__button:hover { color: var(--wp--preset--color--accent); }
+.wc-block-mini-cart__badge { color: var(--wp--preset--color--navy) !important; }
+.ehmar-nav a:hover { color: #A8862F; }
+
+.ehmar-hero {
+	background: radial-gradient(900px 480px at 88% 0%, rgba(236, 194, 112, .20), transparent 62%),
+	            radial-gradient(700px 420px at 0% 110%, rgba(30, 79, 184, .35), transparent 60%),
+	            var(--wp--preset--color--navy) !important;
+}
+.ehmar-hl { color: var(--wp--preset--color--accent); }
+.ehmar-eyebrow { background: rgba(236, 194, 112, .14); color: #F3D79C; }
+.ehmar-btn-accent .wp-block-button__link { color: var(--wp--preset--color--navy) !important; }
+.ehmar-btn-accent .wp-block-button__link:hover { background: #F3D18A !important; }
+.ehmar-hero-art { aspect-ratio: 1 / 0.9; }
+.ehmar-hero-art img { border: 0; }
+.ehmar-hero-a { width: 68%; height: 80%; left: 0; top: 6%; }
+.ehmar-hero-b { width: 40%; height: 44%; right: 0; top: 0; }
+.ehmar-hero-c { width: 40%; height: 44%; right: 6%; bottom: 0; padding: 4%; box-sizing: border-box; }
+
+.ehmar-cat-icon,
+.ehmar-cat:nth-child(5) .ehmar-cat-icon { background: linear-gradient(135deg, var(--wp--preset--color--navy), #24477F); }
+.ehmar-cat:nth-child(4) .ehmar-cat-icon,
+.ehmar-cat:nth-child(8) .ehmar-cat-icon { background: linear-gradient(135deg, #D9A84A, var(--wp--preset--color--accent)); }
+.ehmar-cat:nth-child(4) .ehmar-cat-icon svg,
+.ehmar-cat:nth-child(8) .ehmar-cat-icon svg { stroke: var(--wp--preset--color--navy); }
+.ehmar-trust-list svg { stroke: #A8862F; }
+.wc-block-components-product-sale-badge,
+.single-product span.onsale { color: var(--wp--preset--color--navy) !important; }
+.ehmar-solar-card { background: linear-gradient(120deg, #FBF3E1, #EEF2F9); }
+.ehmar-eyebrow-dark { background: rgba(236, 194, 112, .22); color: #7A5A12; }
+@media (max-width: 781px) {
+	.ehmar-header .wp-block-site-logo img { max-height: 36px; }
+}
+.ehmar-header-actions .wc-block-customer-account__link { color: #fff; }
+.ehmar-header-actions .wc-block-customer-account__link:hover { color: var(--wp--preset--color--accent); }
+.wp-element-button:hover, .wp-block-button__link:hover { background-color: #0B1F3A; }
+@media (max-width: 600px) { .ehmar-hero .ehmar-eyebrow { font-size: .68rem; letter-spacing: .06em; } }

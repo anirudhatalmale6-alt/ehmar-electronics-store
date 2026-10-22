@@ -13,8 +13,8 @@
 				{ "slug": "muted", "name": "Muted text", "color": "#5A6478" },
 				{ "slug": "contrast", "name": "Ink", "color": "#0B1527" },
 				{ "slug": "navy", "name": "Navy", "color": "#0B1F3A" },
-				{ "slug": "primary", "name": "Electric blue", "color": "#1659E6" },
-				{ "slug": "accent", "name": "Orange", "color": "#FF7A1A" },
+				{ "slug": "primary", "name": "Royal navy", "color": "#17386E" },
+				{ "slug": "accent", "name": "Gold", "color": "#ECC270" },
 				{ "slug": "success", "name": "Green", "color": "#13915F" }
 			]
 		},
