@@ -1,0 +1,82 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>ehmar.com — add many products at once</title>
+<style>
+@page{size:A4;margin:14mm} body{font-family:Arial,Helvetica,sans-serif;color:#0B1527;font-size:12.5px;line-height:1.5}
+h1{font-size:24px;color:#0B1F3A;margin:0} .sub{color:#5A6478;margin:4px 0 14px}
+h2{font-size:16px;color:#17386E;margin:0 0 6px;border-bottom:2px solid #ECC270;padding-bottom:3px}
+section{break-inside:avoid;margin-bottom:16px} section img{width:100%;border:1px solid #D5DAE3;border-radius:6px;margin-top:6px}
+ul,ol{margin:4px 0 4px 18px;padding:0} p{margin:4px 0}
+.box{background:#FBF3E1;border-radius:8px;padding:10px 12px;margin-bottom:14px}
+table{border-collapse:collapse;width:100%;font-size:11.5px} td,th{border:1px solid #E2E6ED;padding:4px 6px;text-align:left;vertical-align:top} th{background:#F3F5F9}
+code{background:#F3F5F9;padding:0 3px;border-radius:3px}
+</style></head><body>
+
+<h1>ehmar.com — add many products at once</h1>
+<p class="sub">Fill in one spreadsheet with all your products, upload it, and they all appear on the website in one go. Best for 200+ products.</p>
+
+<div class="box"><b>In short:</b> open the template → one row per product → save as CSV → Products → <b>Import</b> → Continue → Run the importer. Tip: try with 5 products first, check them on the website, then import the rest.</div>
+
+<section>
+<h2>1. Open the template</h2>
+<p>Open the file <b>ehmar-products-template.csv</b> (sent with this guide) in Excel, Numbers or Google Sheets. It already has 3 example products — replace them with yours and add as many rows as you need.</p>
+<p>Keep the first row (the column titles) exactly as it is.</p>
+</section>
+
+<section>
+<h2>2. What to put in each column</h2>
+<table>
+<tr><th style="width:22%">Column</th><th>What to type</th></tr>
+<tr><td>Type</td><td>Always <code>simple</code>. (Products with choices such as colours or sizes are easier to add one by one, as in the first guide, or send them to me.)</td></tr>
+<tr><td>SKU</td><td>Your own unique code for each product, e.g. <code>EH-0004</code>, <code>EH-0005</code>… Never use the same code twice.</td></tr>
+<tr><td>Name</td><td>The product name customers see.</td></tr>
+<tr><td>Published</td><td><code>1</code> = visible on the website, <code>0</code> = saved but hidden (draft).</td></tr>
+<tr><td>Short description</td><td>One or two lines shown next to the price.</td></tr>
+<tr><td>Description</td><td>Full details: specifications, what is in the box, warranty.</td></tr>
+<tr><td>Regular price</td><td>Price in US dollars, numbers only, no $ sign: <code>89.00</code></td></tr>
+<tr><td>Sale price</td><td>Optional. If filled, the regular price is shown crossed out.</td></tr>
+<tr><td>Categories</td><td>Exactly one of: Security Cameras, Video Doorbells, Phones &amp; Tablets, Electronics, Solar Power, Kitchen, Car Accessories. (A new name creates a new category.)</td></tr>
+<tr><td>In stock?</td><td><code>1</code> = in stock, <code>0</code> = out of stock.</td></tr>
+<tr><td>Stock</td><td>How many you have, e.g. <code>10</code>. Leave empty if you don't track quantities.</td></tr>
+<tr><td>Images</td><td>Web link of the photo (starting with https://). Several photos: separate the links with a comma, the first one is the main photo. You can also leave it empty and add photos later in the product.</td></tr>
+</table>
+<p><b>Where to get photo links:</b> on a supplier's page, right-click the photo → <i>Copy image address</i>. Or upload your own photos in the dashboard under <b>Media → Add New</b>, click a photo and use <b>Copy URL to clipboard</b>.</p>
+</section>
+
+<section>
+<h2>3. Save the spreadsheet as CSV</h2>
+<ul>
+<li><b>Numbers (Mac):</b> File → Export To → CSV… → Next → Save.</li>
+<li><b>Excel:</b> File → Save As → choose <b>CSV UTF-8 (Comma delimited)</b>.</li>
+<li><b>Google Sheets:</b> File → Download → Comma-separated values (.csv).</li>
+</ul>
+<p>Always save from the spreadsheet program like this — don't edit the CSV file in a plain text editor, or the columns can get mixed up.</p>
+</section>
+
+<section>
+<h2>4. Upload it: Products → Import</h2>
+<p>Log in at <b>ehmar.com/wp-admin</b>, click <b>Products → All Products</b>, then the <b>Import</b> button at the top.</p>
+<img src="b1-products-import-button-c.png">
+</section>
+
+<section>
+<h2>5. Choose your file and click Continue</h2>
+<p>Click <b>Choose file</b>, pick your CSV, then <b>Continue</b>. (Only to change prices of products already on the site: tick <b>Update existing products</b> — products are matched by SKU.)</p>
+<img src="b2-choose-file-c.png">
+</section>
+
+<section>
+<h2>6. Columns are matched for you — click Run the importer</h2>
+<p>Because you used the template, every column is already matched. Scroll down and click <b>Run the importer</b>.</p>
+<img src="b3-mapping-c.png">
+</section>
+
+<section>
+<h2>7. Done — check your new products</h2>
+<p>When it says <b>Import complete</b>, click <b>View products</b>. Your new products are at the top of the list, with price, sale price, stock and category, and they are already on the website.</p>
+<img src="b5-new-products-c.png">
+</section>
+
+<section>
+<div class="box"><b>Need help?</b> Fill in the spreadsheet with what you have (even just name, price, category and photo link) and send it to me — I'll check it and do the import for you.</div>
+</section>
+</body></html>
